@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vinho Fino — Adega & Empório</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --wine:    #6B1A2A;
+      --wine-dark: #3D0B14;
+      --gold:    #C9A84C;
+      --cream:   #F5EFE6;
+      --ink:     #1A1008;
+      --muted:   #8A7A6A;
+      --card-bg: #FFFCF7;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(26,16,8,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(201,168,76,.25);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 300; letter-spacing: .15em;
+      color: var(--gold); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: rgba(245,239,230,.75); text-decoration: none;
+      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cart {
+      display: flex; align-items: center; gap: .5rem;
+      background: var(--wine); color: var(--cream);
+      border: none; padding: .6rem 1.4rem; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+      transition: background .3s;
+    }
+    .nav-cart:hover { background: var(--gold); color: var(--ink); }
+    .cart-count {
+      background: var(--gold); color: var(--ink);
+      font-size: .6rem; font-weight: 700;
+      border-radius: 50%; width: 1.2rem; height: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      background: var(--wine-dark);
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; overflow: hidden; position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(107,26,42,.6) 0%, transparent 70%);
+    }
+    .hero-text {
+      padding: 8rem 4rem 4rem 6rem;
+      position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--cream); margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-subtitle {
+      color: rgba(245,239,230,.6); font-size: .85rem;
+      line-height: 1.8; max-width: 380px; margin-bottom: 3rem;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 1rem;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--ink);
+      padding: 1rem 2.5rem; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      text-decoration: none; transition: all .3s;
+    }
+    .btn-primary:hover { background: var(--cream); }
+    .btn-ghost {
+      background: transparent; color: var(--cream);
+      padding: 1rem 2rem; border: 1px solid rgba(245,239,230,.3); cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      text-decoration: none; transition: all .3s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-visual {
+      position: relative; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-bottle-wrap {
+      position: relative;
+      animation: floatBottle 6s ease-in-out infinite;
+    }
+    @keyframes floatBottle {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-18px); }
+    }
+    .hero-bottle {
+      width: 160px;
+      filter: drop-shadow(0 40px 60px rgba(0,0,0,.7));
+    }
+    .hero-glow {
+      position: absolute; width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.15) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      border-radius: 50%;
+    }
+
+    /* ── STATS BAR ───────────────────────────── */
+    .stats-bar {
+      background: var(--wine); padding: 2rem 6rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(201,168,76,.2);
+      border-bottom: 1px solid rgba(201,168,76,.2);
+    }
+    .stat { text-align: center; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; font-weight: 300; color: var(--gold);
+    }
+    .stat-label {
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(245,239,230,.6); margin-top: .3rem;
+    }
+
+    /* ── SECTION SHARED ──────────────────────── */
+    section { padding: 7rem 6rem; }
+    .section-eyebrow {
+      font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem; display: block;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300;
+      line-height: 1.1; margin-bottom: 1rem;
+    }
+    .section-desc {
+      color: var(--muted); font-size: .85rem; line-height: 1.9;
+      max-width: 560px; margin-bottom: 3.5rem;
+    }
+
+    /* ── FEATURED ────────────────────────────── */
+    #destaques { background: var(--cream); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(26,16,8,.07);
+      transition: transform .35s, box-shadow .35s;
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(107,26,42,.12);
+    }
+    .product-card:hover .card-overlay { opacity: 1; }
+    .card-img-wrap {
+      height: 280px; background: var(--wine-dark);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .card-bottle-svg { width: 70px; filter: drop-shadow(0 8px 24px rgba(0,0,0,.5)); }
+    .card-badge {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--gold); color: var(--ink);
+      font-size: .55rem; letter-spacing: .15em; text-transform: uppercase;
+      padding: .3rem .7rem;
+    }
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: rgba(107,26,42,.85);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .35s;
+    }
+    .btn-add {
+      background: var(--gold); color: var(--ink);
+      border: none; padding: .8rem 1.8rem; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+      transition: background .3s;
+    }
+    .btn-add:hover { background: var(--cream); }
+    .card-body { padding: 1.5rem; }
+    .card-region {
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: .4rem;
+    }
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 400; margin-bottom: .3rem;
+    }
+    .card-year { font-size: .75rem; color: var(--muted); margin-bottom: 1rem; }
+    .card-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(26,16,8,.07); padding-top: 1rem;
+    }
+    .card-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: var(--wine);
+    }
+    .card-rating { display: flex; gap: .2rem; }
+    .star { color: var(--gold); font-size: .75rem; }
+
+    /* ── ABOUT ───────────────────────────────── */
+    #sobre {
+      background: var(--wine-dark);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center; padding: 7rem 6rem;
+    }
+    #sobre .section-title, #sobre .section-eyebrow { color: var(--cream); }
+    #sobre .section-desc { color: rgba(245,239,230,.55); }
+    .about-features { display: flex; flex-direction: column; gap: 1.5rem; }
+    .about-feature {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+    }
+    .feature-icon {
+      width: 2.5rem; height: 2.5rem; min-width: 2.5rem;
+      background: rgba(201,168,76,.15);
+      border: 1px solid rgba(201,168,76,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .feature-title {
+      font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .3rem;
+    }
+    .feature-desc { font-size: .8rem; color: rgba(245,239,230,.5); line-height: 1.7; }
+    .about-visual {
+      position: relative; display: flex; align-items: center; justify-content: center;
+    }
+    .about-circle {
+      width: 380px; height: 380px; border-radius: 50%;
+      border: 1px solid rgba(201,168,76,.2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .about-circle::before {
+      content: ''; position: absolute;
+      width: 320px; height: 320px; border-radius: 50%;
+      border: 1px dashed rgba(201,168,76,.15);
+    }
+    .about-big-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 8rem; font-weight: 300; color: rgba(201,168,76,.15);
+      line-height: 1;
+    }
+    .about-big-label {
+      position: absolute; bottom: 4rem;
+      font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── NEWSLETTER ──────────────────────────── */
+    #newsletter {
+      background: var(--cream);
+      text-align: center; padding: 6rem;
+    }
+    .newsletter-wrap { max-width: 540px; margin: 0 auto; }
+    .newsletter-form {
+      display: flex; gap: 0; margin-top: 2.5rem;
+      border: 1px solid rgba(26,16,8,.15);
+    }
+    .newsletter-input {
+      flex: 1; padding: 1rem 1.5rem; border: none; background: white;
+      font-family: 'Montserrat', sans-serif; font-size: .8rem;
+      outline: none; color: var(--ink);
+    }
+    .newsletter-input::placeholder { color: var(--muted); }
+    .newsletter-btn {
+      background: var(--wine); color: var(--cream);
+      border: none; padding: 1rem 2rem; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+      white-space: nowrap; transition: background .3s;
+    }
+    .newsletter-btn:hover { background: var(--wine-dark); }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      background: var(--ink); color: rgba(245,239,230,.5);
+      padding: 4rem 6rem 2rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(245,239,230,.08);
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300; color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .footer-tagline { font-size: .78rem; line-height: 1.8; }
+    .footer-col-title {
+      font-size: .6rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 1.2rem;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+    .footer-links a {
+      color: rgba(245,239,230,.45); text-decoration: none;
+      font-size: .78rem; transition: color .3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 2rem; font-size: .7rem;
+    }
+
+    /* ── CART SIDEBAR ────────────────────────── */
+    .cart-sidebar {
+      position: fixed; top: 0; right: -420px; width: 420px; height: 100vh;
+      background: var(--card-bg); z-index: 200;
+      box-shadow: -10px 0 60px rgba(0,0,0,.2);
+      transition: right .4s cubic-bezier(.22,1,.36,1);
+      display: flex; flex-direction: column;
+    }
+    .cart-sidebar.open { right: 0; }
+    .cart-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(26,16,8,.08);
+    }
+    .cart-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 300;
+    }
+    .cart-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.3rem; color: var(--muted);
+    }
+    .cart-items { flex: 1; overflow-y: auto; padding: 1.5rem 2rem; }
+    .cart-item {
+      display: flex; gap: 1rem; align-items: center;
+      padding: 1rem 0; border-bottom: 1px solid rgba(26,16,8,.06);
+    }
+    .cart-item-img {
+      width: 50px; height: 70px; background: var(--wine-dark);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; margin-bottom: .2rem;
+    }
+    .cart-item-price { font-size: .8rem; color: var(--wine); }
+    .cart-item-remove {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); font-size: .8rem; transition: color .3s;
+    }
+    .cart-item-remove:hover { color: var(--wine); }
+    .cart-footer {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid rgba(26,16,8,.08);
+    }
+    .cart-total {
+      display: flex; justify-content: space-between;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; margin-bottom: 1.2rem;
+    }
+    .btn-checkout {
+      width: 100%; background: var(--wine); color: var(--cream);
+      border: none; padding: 1.1rem; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+      transition: background .3s;
+    }
+    .btn-checkout:hover { background: var(--wine-dark); }
+    .cart-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.4); z-index: 150;
+    }
+    .cart-overlay.open { display: block; }
+    .cart-empty {
+      text-align: center; padding: 3rem 1rem;
+      color: var(--muted); font-size: .85rem; line-height: 1.8;
+    }
+
+    /* ── TOAST ───────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+      background: var(--wine-dark); color: var(--cream);
+      padding: .9rem 2rem; font-size: .75rem; letter-spacing: .1em;
+      border-left: 3px solid var(--gold); z-index: 300;
+      transition: transform .4s cubic-bezier(.22,1,.36,1);
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── SCROLL REVEAL ───────────────────────── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s, transform .7s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero-text { padding: 8rem 2rem 4rem; }
+      section { padding: 4rem 2rem; }
+      .stats-bar { flex-wrap: wrap; gap: 2rem; padding: 2rem; }
+      #sobre { grid-template-columns: 1fr; padding: 4rem 2rem; }
+      .about-visual { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .cart-sidebar { width: 100%; right: -100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Vinho Fino</a>
+  <ul class="nav-links">
+    <li><a href="#destaques">Vinhos</a></li>
+    <li><a href="#sobre">A Adega</a></li>
+    <li><a href="#newsletter">Clube</a></li>
+    <li><a href="#">Contato</a></li>
+  </ul>
+  <button class="nav-cart" onclick="toggleCart()">
+    🛒 Carrinho <span class="cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Adega & Empório · Desde 1998</p>
+    <h1 class="hero-title">
+      A arte de escolher<br>
+      o vinho <em>certo</em>
+    </h1>
+    <p class="hero-subtitle">
+      Curadoria exclusiva de rótulos nacionais e importados,
+      selecionados por sommeliers certificados para cada
+      ocasião e paladar.
+    </p>
+    <div class="hero-cta">
+      <a href="#destaques" class="btn-primary">Ver Catálogo</a>
+      <a href="#sobre" class="btn-ghost">Nossa história</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-glow"></div>
+    <div class="hero-bottle-wrap">
+      <!-- Inline SVG bottle -->
+      <svg class="hero-bottle" viewBox="0 0 160 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="60" y="0" width="40" height="60" rx="4" fill="#C9A84C" opacity=".8"/>
+        <rect x="64" y="55" width="32" height="30" rx="2" fill="#8B1A2E"/>
+        <path d="M55 85 C40 110 30 150 30 200 L30 460 C30 480 45 495 80 495 C115 495 130 480 130 460 L130 200 C130 150 120 110 105 85 Z" fill="#3D0B14"/>
+        <path d="M55 85 C40 110 30 150 30 200 L30 460 C30 480 45 495 80 495 C115 495 130 480 130 460 L130 200 C130 150 120 110 105 85 Z" fill="url(#bottleGrad)" opacity=".4"/>
+        <defs>
+          <linearGradient id="bottleGrad" x1="30" y1="0" x2="130" y2="0">
+            <stop offset="0%" stop-color="#fff" stop-opacity=".3"/>
+            <stop offset="50%" stop-color="#fff" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#000" stop-opacity=".2"/>
+          </linearGradient>
+        </defs>
+        <rect x="48" y="240" width="64" height="80" rx="3" fill="rgba(245,239,230,.06)" stroke="rgba(201,168,76,.3)" stroke-width="1"/>
+        <text x="80" y="265" text-anchor="middle" font-family="serif" font-size="8" fill="rgba(201,168,76,.8)">VINHO</text>
+        <text x="80" y="278" text-anchor="middle" font-family="serif" font-size="10" fill="rgba(245,239,230,.7)">FINO</text>
+        <text x="80" y="295" text-anchor="middle" font-family="sans-serif" font-size="6" fill="rgba(201,168,76,.6)">RESERVE · 2019</text>
+        <ellipse cx="80" cy="490" rx="50" ry="8" fill="rgba(0,0,0,.35)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-number">850+</div>
+    <div class="stat-label">Rótulos disponíveis</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">18</div>
+    <div class="stat-label">Países de origem</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">26</div>
+    <div class="stat-label">Anos de experiência</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">12k+</div>
+    <div class="stat-label">Clientes satisfeitos</div>
+  </div>
+</div>
+
+<!-- PRODUTOS EM DESTAQUE -->
+<section id="destaques">
+  <span class="section-eyebrow">Seleção do sommelier</span>
+  <h2 class="section-title">Destaques da semana</h2>
+  <p class="section-desc">
+    Rótulos selecionados com base em harmonização, custo-benefício
+    e avaliações internacionais. Estoque limitado.
+  </p>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div>
+    <span class="section-eyebrow">Nossa história</span>
+    <h2 class="section-title" style="color:var(--cream)">Mais de duas décadas cultivando bons gostos</h2>
+    <p class="section-desc">
+      Fundada em 1998 na Serra Gaúcha, a Vinho Fino nasceu do amor
+      pela enologia e do desejo de democratizar o acesso a rótulos de
+      qualidade, sem abrir mão do atendimento personalizado.
+    </p>
+    <div class="about-features">
+      <div class="about-feature">
+        <div class="feature-icon">🍇</div>
+        <div>
+          <div class="feature-title">Curadoria especializada</div>
+          <div class="feature-desc">Cada garrafa passa pela aprovação de nossos sommeliers antes de entrar no catálogo.</div>
+        </div>
+      </div>
+      <div class="about-feature">
+        <div class="feature-icon">📦</div>
+        <div>
+          <div class="feature-title">Entrega segura</div>
+          <div class="feature-desc">Embalagens térmicas e logística especializada para preservar a qualidade até sua adega.</div>
+        </div>
+      </div>
+      <div class="about-feature">
+        <div class="feature-icon">🏆</div>
+        <div>
+          <div class="feature-title">Preços diretos</div>
+          <div class="feature-desc">Importação direta e parcerias com vinícolas garantem o melhor custo-benefício.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="about-visual">
+    <div class="about-circle">
+      <div>
+        <div class="about-big-num">26</div>
+      </div>
+      <div class="about-big-label">Anos de tradição</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="newsletter-wrap reveal">
+    <span class="section-eyebrow">Clube Vinho Fino</span>
+    <h2 class="section-title">Receba novidades e ofertas exclusivas</h2>
+    <p class="section-desc" style="margin: 1rem auto 0; text-align:center">
+      Seja o primeiro a saber sobre lançamentos, promoções e conteúdo sobre harmonização.
+    </p>
+    <div class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="Seu melhor e-mail" id="emailInput"/>
+      <button class="newsletter-btn" onclick="subscribeNewsletter()">Inscrever-se</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Vinho Fino</div>
+      <p class="footer-tagline">Adega & Empório especializado em vinhos nacionais e importados desde 1998. Curadoria com alma, entrega com cuidado.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navegue</div>
+      <ul class="footer-links">
+        <li><a href="#destaques">Catálogo</a></li>
+        <li><a href="#sobre">A Adega</a></li>
+        <li><a href="#newsletter">Clube</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Categorias</div>
+      <ul class="footer-links">
+        <li><a href="#">Tintos</a></li>
+        <li><a href="#">Brancos</a></li>
+        <li><a href="#">Espumantes</a></li>
+        <li><a href="#">Rosés</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contato</div>
+      <ul class="footer-links">
+        <li><a href="#">contato@vinhofino.com.br</a></li>
+        <li><a href="#">(54) 3000-0000</a></li>
+        <li><a href="#">Bento Gonçalves, RS</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Vinho Fino. Todos os direitos reservados.</span>
+    <span>Beba com moderação. Venda proibida para menores de 18 anos.</span>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <span class="cart-title">Seu Carrinho</span>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Seu carrinho está vazio.<br>Adicione alguns rótulos!</div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">R$ 0,00</span>
+    </div>
+    <button class="btn-checkout" onclick="checkout()">Finalizar Compra</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── PRODUCTS DATA ───────────────────────────
+  const products = [
+    { id:1, name:"Gran Reserva Malbec", region:"Mendoza, Argentina", year:2020, price:189.90, badge:"Mais Vendido", stars:5, color:"#4A1020" },
+    { id:2, name:"Chablis Premier Cru", region:"Borgonha, França",   year:2021, price:310.00, badge:"Importado",   stars:5, color:"#2C4A1A" },
+    { id:3, name:"Bairrada Reserva",    region:"Bairrada, Portugal", year:2019, price:124.50, badge:null,          stars:4, color:"#3D1A3A" },
+    { id:4, name:"Primitivo di Manduria",region:"Puglia, Itália",   year:2020, price:167.00, badge:"Novidade",    stars:5, color:"#4A2010" },
+    { id:5, name:"Carménère Gran Res.", region:"Valle Central, Chile",year:2021,price:98.00, badge:null,           stars:4, color:"#1A2A4A" },
+    { id:6, name:"Riesling Spätlese",   region:"Mosel, Alemanha",   year:2022, price:225.00, badge:"Premiado",    stars:5, color:"#2A3A1A" },
+  ];
+
+  // ── RENDER PRODUCTS ─────────────────────────
+  function bottleSVG(color) {
+    return `<svg class="card-bottle-svg" viewBox="0 0 80 260" fill="none">
+      <rect x="30" y="0" width="20" height="30" rx="2" fill="#C9A84C" opacity=".8"/>
+      <path d="M27 42 C20 55 15 75 15 100 L15 230 C15 240 22 247 40 247 C58 247 65 240 65 230 L65 100 C65 75 60 55 53 42 Z" fill="${color}"/>
+      <path d="M27 42 C20 55 15 75 15 100 L15 230 C15 240 22 247 40 247 C58 247 65 240 65 230 L65 100 C65 75 60 55 53 42 Z" fill="url(#cg)" opacity=".3"/>
+      <defs><linearGradient id="cg" x1="15" y1="0" x2="65" y2="0">
+        <stop offset="0%" stop-color="#fff" stop-opacity=".4"/>
+        <stop offset="100%" stop-color="#000" stop-opacity=".1"/>
+      </linearGradient></defs>
+      <rect x="22" y="120" width="36" height="45" rx="2" fill="rgba(245,239,230,.06)" stroke="rgba(201,168,76,.3)" stroke-width=".5"/>
+      <ellipse cx="40" cy="244" rx="25" ry="4" fill="rgba(0,0,0,.3)"/>
+    </svg>`;
+  }
+
+  function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = products.map(p => `
+      <div class="product-card reveal" onclick="addToCart(${p.id})">
+        <div class="card-img-wrap">
+          ${bottleSVG(p.color)}
+          ${p.badge ? `<div class="card-badge">${p.badge}</div>` : ''}
+          <div class="card-overlay">
+            <button class="btn-add" onclick="event.stopPropagation();addToCart(${p.id})">
+              + Adicionar ao Carrinho
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-region">${p.region}</div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-year">${p.year}</div>
+          <div class="card-footer">
+            <div class="card-price">R$ ${p.price.toFixed(2).replace('.',',')}</div>
+            <div class="card-rating">${'★'.repeat(p.stars)}${'☆'.repeat(5-p.stars)}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    observeReveal();
+  }
+
+  // ── CART ────────────────────────────────────
+  let cart = [];
+
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.qty++;
+    else cart.push({ ...product, qty: 1 });
+    updateCartUI();
+    showToast(`"${product.name}" adicionado ao carrinho`);
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(i => i.id !== id);
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cartCount').textContent = count;
+
+    const itemsEl = document.getElementById('cartItems');
+    const footerEl = document.getElementById('cartFooter');
+
+    if (cart.length === 0) {
+      itemsEl.innerHTML = '<div class="cart-empty">Seu carrinho está vazio.<br>Adicione alguns rótulos!</div>';
+      footerEl.style.display = 'none';
+      return;
+    }
+
+    footerEl.style.display = 'block';
+    itemsEl.innerHTML = cart.map(i => `
+      <div class="cart-item">
+        <div class="cart-item-img">${bottleSVG(i.color)}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${i.name}</div>
+          <div class="cart-item-price">R$ ${(i.price * i.qty).toFixed(2).replace('.',',')} × ${i.qty}</div>
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart(${i.id})">✕</button>
+      </div>
+    `).join('');
+
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    document.getElementById('cartTotal').textContent =
+      'R$ ' + total.toFixed(2).replace('.',',');
+  }
+
+  function toggleCart() {
+    document.getElementById('cartSidebar').classList.toggle('open');
+    document.getElementById('cartOverlay').classList.toggle('open');
+  }
+
+  function checkout() {
+    showToast('Redirecionando para o pagamento…');
+    setTimeout(toggleCart, 1200);
+  }
+
+  // ── NEWSLETTER ──────────────────────────────
+  function subscribeNewsletter() {
+    const val = document.getElementById('emailInput').value.trim();
+    if (!val || !val.includes('@')) { showToast('Insira um e-mail válido'); return; }
+    document.getElementById('emailInput').value = '';
+    showToast('Inscrição realizada! Bem-vindo ao Clube Vinho Fino 🍷');
+  }
+
+  // ── TOAST ───────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── SCROLL REVEAL ───────────────────────────
+  function observeReveal() {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  }
+
+  renderProducts();
+  observeReveal();
+</script>
+</body>
+</html>
