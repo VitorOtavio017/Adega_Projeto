@@ -49,7 +49,7 @@ node --version
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/adega-vinho-fino.git
+git clone https://github.com/VitorOtavio017/adega-vinho-fino.git
 cd adega-vinho-fino
 ```
 
@@ -176,12 +176,6 @@ openspec view
 2. Passe o mouse sobre qualquer card de vinho
 3. Clique em **"+ Adicionar ao Carrinho"**
 4. O carrinho lateral abre automaticamente com o item
-
-### Inscrever-se no Clube
-1. Role até a seção **"Clube Vinho Fino"**
-2. Digite seu e-mail no campo
-3. Clique em **"Inscrever-se"**
-
 ---
 
 ## 🔧 Atualizar o OpenSpec
@@ -191,14 +185,3 @@ npm install -g @fission-ai/openspec@latest
 openspec update
 ```
 
----
-
-## 👥 Equipe
-
-Desenvolvido em grupo como projeto de aula da disciplina de Engenharia de Software.
-
----
-
-## 📄 Licença
-
-Este projeto é de uso educacional. Consulte o arquivo `LICENSE` para mais detalhes.
